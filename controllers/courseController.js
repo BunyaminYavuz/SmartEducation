@@ -18,7 +18,7 @@ exports.createCourse = async (req, res) => {
 
 exports.getAllCourses = async (req, res) => {
   try {
-    const categorySlug = req.query.categories;
+    const categorySlug = req.query.categories; 
     const category = await Category.findOne({ slug: categorySlug });
     const categories = await Category.find();
 
@@ -30,7 +30,7 @@ exports.getAllCourses = async (req, res) => {
 
     const courses = await Course.find(filter);
     res.status(200).render('courses', {
-      categories,
+      categories,  
       courses,
       page: 'courses',
     });
