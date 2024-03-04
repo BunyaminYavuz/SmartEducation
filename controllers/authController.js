@@ -4,9 +4,9 @@ const bcrypt = require('bcrypt');
 exports.createUser = async (req, res) => {
   const user = await User.create(req.body);
   try {
-    res.status(201).json({
-      status: 'Successful',
+    res.status(201).render('login', {
       user,
+      page: 'login'
     });
   } catch {
     res.status(400).json({
@@ -16,7 +16,7 @@ exports.createUser = async (req, res) => {
   }
 };
 
-exports.logInUser = async (req, res) => {
+exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
@@ -36,3 +36,10 @@ exports.logInUser = async (req, res) => {
     });
   }
 };
+
+//
+exports.logoutUser = (req, res) => {
+  req.session.destroy(()=> {
+    res.redirect('/');
+  })
+}

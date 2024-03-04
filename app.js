@@ -2,6 +2,7 @@ const express = require('express');
 const ejs = require('ejs');
 const mongoose = require('mongoose');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const pageRoute = require('./routes/pageRoute');
 const courseRoute = require('./routes/courseRoute');
 const categoryRoute = require('./routes/categoryRoute');
@@ -22,6 +23,9 @@ mongoose
 // Template Engine
 app.set('view engine', 'ejs');
 
+// Global session variable
+global.userIN = null;
+
 // Middlewares
 app.use(express.static('public'));
 app.use(express.json()); // for parsing application/json
@@ -31,11 +35,13 @@ app.use(
     secret: 'my_keyboard_cat',
     resave: false,
     saveUninitialized: true,
+    store: MongoStore.create({
+      mongoUrl: 'mongodb://localhost/smart-education-db',
+    }),
   })
 );
 
 // Routes
-global.userIN = null; // false for default
 app.use('*', (req, res, next) => {
   userIN = req.session.userID;
   next();
