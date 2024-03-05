@@ -6,7 +6,7 @@ const MongoStore = require('connect-mongo');
 const pageRoute = require('./routes/pageRoute');
 const courseRoute = require('./routes/courseRoute');
 const categoryRoute = require('./routes/categoryRoute');
-const authController = require('./routes/authRoute');
+const authRoute = require('./routes/authRoute');
 
 const app = express();
 
@@ -49,7 +49,7 @@ app.use('*', (req, res, next) => {
 app.use('/', pageRoute);
 app.use('/courses', courseRoute);
 app.use('/categories', categoryRoute);
-app.use('/users', authController);
+app.use('/users', authRoute);
 
 const port = 3000;
 app.listen(port, () => {

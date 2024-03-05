@@ -6,7 +6,7 @@ exports.createUser = async (req, res) => {
   try {
     res.status(201).render('login', {
       user,
-      page: 'login'
+      page: 'login',
     });
   } catch {
     res.status(400).json({
@@ -27,7 +27,7 @@ exports.loginUser = async (req, res) => {
     if (same) {
       // User SESSION
       req.session.userID = user._id;
-      res.status(200).redirect('/');
+      res.status(200).redirect('/users/dashboard');
     }
   } catch {
     res.status(400).json({
@@ -37,9 +37,16 @@ exports.loginUser = async (req, res) => {
   }
 };
 
-//
 exports.logoutUser = (req, res) => {
-  req.session.destroy(()=> {
+  req.session.destroy(() => {
     res.redirect('/');
-  })
-}
+  });
+};
+
+exports.getDashboardPage = async (req, res) => {
+  const user = await User.findById(req.session.userID);
+  res.status(200).render('dashboard', {
+    page: 'dashboard',
+    user
+  });
+};
