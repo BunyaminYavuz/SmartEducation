@@ -1,11 +1,15 @@
 const express = require('express');
 const authController = require('../controllers/authController');
+const authMiddlewares = require('../middlewares/authMiddlewares');
+const redirectMiddlewares = require('../middlewares/redirectMiddlewares');
 
 const router = express.Router();
 
-router.route('/signup').post(authController.createUser);   // http://localhost:3000/users/signup
-router.route('/login').post(authController.loginUser);   // http://localhost:3000/users/login
+router.route('/signup').post(authController.createUser); // http://localhost:3000/users/signup
+router.route('/login').post(authController.loginUser); // http://localhost:3000/users/login
 router.route('/logout').get(authController.logoutUser);
-router.route('/dashboard').get(authController.getDashboardPage);
+router
+  .route('/dashboard')
+  .get(authMiddlewares, authController.getDashboardPage);
 
 module.exports = router;
