@@ -1,7 +1,7 @@
 const express = require('express');
 const authController = require('../controllers/authController');
-const authMiddlewares = require('../middlewares/authMiddlewares');
-const redirectMiddlewares = require('../middlewares/redirectMiddlewares');
+const authMiddleware = require('../middlewares/authMiddleware');
+
 
 const router = express.Router();
 
@@ -10,6 +10,6 @@ router.route('/login').post(authController.loginUser); // http://localhost:3000/
 router.route('/logout').get(authController.logoutUser);
 router
   .route('/dashboard')
-  .get(authMiddlewares, authController.getDashboardPage);
+  .get(authMiddleware, authController.getDashboardPage);
 
 module.exports = router;
