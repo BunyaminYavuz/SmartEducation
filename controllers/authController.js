@@ -1,11 +1,11 @@
 const User = require('../models/User');
+const Category = require('../models/Category');
 const bcrypt = require('bcrypt');
 
 exports.createUser = async (req, res) => {
-  const user = await User.create(req.body);
+  await User.create(req.body);
   try {
     res.status(201).render('login', {
-      user,
       page: 'login',
     });
   } catch {
@@ -45,8 +45,11 @@ exports.logoutUser = (req, res) => {
 
 exports.getDashboardPage = async (req, res) => {
   const user = await User.findById(req.session.userID);
+  const categories = await Category.find();
+
   res.status(200).render('dashboard', {
     page: 'dashboard',
-    user
+    user,
+    categories,
   });
 };
