@@ -16,11 +16,24 @@
 							<img src="/images/blog_single.jpg" alt="" class="img-fluid">
 						</div>
 						<div class="post-content">
+
 							<div class="post-date">
-								<span class="day"><%= ((new Date() - new Date(course.createdDate)) / (1000 * 60 * 60 * 24)).toFixed(0) !== "0" ? ((new Date() - new Date(course.createdDate)) / (1000 * 60 * 60 * 24)).toFixed(0) + " days" : "Today" %>
+								<!-- <span class="day"><%= ((new Date() - new Date(course.createdDate)) / (1000 * 60 * 60 * 24)).toFixed(0) !== "0" ? ((new Date() - new Date(course.createdDate)) / (1000 * 60 * 60 * 24)).toFixed(0) + " days" : "Today" %>
 								</span>
-								<span class="month">Created</span>
+								<span class="month">Created</span> -->
+
+								<% if (user && !(user.courses.includes(course._id))) { %>
+
+									<form method="POST" action="/courses/enroll">
+										<input type="hidden" name="course_id" value="<%= course._id %>">
+										<button class="btn btn-lg btn-warning text-white"><span>ENROLL</span></button>
+									</form>
+									
+								<% } %>
+
+
 							</div>
+
 							<div class="meta-info-blog">
 								<span><i class="fa fa-calendar"></i> <a href="#"><%= course.createdDate.toLocaleString('en-US', { month: 'short', day: '2-digit', year: 'numeric'}) %></a> </span>
 							</div>
