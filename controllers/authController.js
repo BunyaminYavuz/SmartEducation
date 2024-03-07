@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const Category = require('../models/Category');
 const bcrypt = require('bcrypt');
+const Course = require('../models/Course');
 
 exports.createUser = async (req, res) => {
   await User.create(req.body);
@@ -47,9 +48,12 @@ exports.getDashboardPage = async (req, res) => {
   const user = await User.findById(req.session.userID);
   const categories = await Category.find();
 
+  const courses = await Course.find({ user: req.session.userID }).populate('user' );
+  
   res.status(200).render('dashboard', {
     page: 'dashboard',
     user,
     categories,
+    courses,
   });
 };
