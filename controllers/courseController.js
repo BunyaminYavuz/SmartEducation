@@ -22,6 +22,7 @@ exports.createCourse = async (req, res) => {
 exports.getAllCourses = async (req, res) => {
   try {
     const categorySlug = req.query.categories;
+    const searchQuery = req.query.search;
     const category = await Category.findOne({ slug: categorySlug });
     const categories = await Category.find();
 
@@ -30,12 +31,28 @@ exports.getAllCourses = async (req, res) => {
       filter = { category: category._id };
     }
 
-    const courses = await Course.find(filter).sort('-createdDate');
+    if (searchQuery) {
+      filter = { name: searchQuery };
+    }
+
+    if (!searchQuery && !categorySlug) {
+      (filter.name = ''), (filter.category = null);
+    }
+
+    const courses = await Course.find({
+      $or: [
+        { name: { $regex: '.*' + filter.name + '.*', $options: 'i' } },
+        { category: filter.category },
+      ],
+    })
+      .sort('-createdDate')
+      .populate('user');
+
     res.status(200).render('courses', {
       categories,
       courses,
       page: 'courses',
-      categorySlug
+      categorySlug,
     });
   } catch (err) {
     res.status(400).json({
