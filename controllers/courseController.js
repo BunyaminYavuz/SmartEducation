@@ -35,6 +35,7 @@ exports.getAllCourses = async (req, res) => {
       categories,
       courses,
       page: 'courses',
+      categorySlug
     });
   } catch (err) {
     res.status(400).json({
