@@ -11,6 +11,20 @@
         <div class="container">
             <div class="row"> 
                 <div class="col-lg-9 blog-post-single">
+
+					<!-- Flash Message for creating course -->
+					<% if (flashMessages) { %>
+						<% if (flashMessages.success) { %>
+						  <div class="alert alert-success">
+						<%= flashMessages.success %>
+						</div>
+					  <% } else if (flashMessages.error) { %>
+					   <div class="alert alert-danger">
+						<%= flashMessages.error %>
+						</div>
+						<% } %>
+					  <% } %>
+
 				            <div class="row"> 
 
 								<% if (courses.length > 0) { %>
@@ -25,7 +39,7 @@
 														<h2><a href="/courses/<%= course.slug %>" title=""><%= course.name %></a></h2>
 													</div>
 													<div class="course-desc">
-														<p><%= course.description %></p>
+														<p><%= course.description.substring(0, 100) + '...' %></p>
 													</div>
 												</div>
 												<div class="course-meta-bot">
