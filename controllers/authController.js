@@ -67,10 +67,25 @@ exports.getDashboardPage = async (req, res) => {
     .populate('user')
     .sort('-createdDate');
 
+  const users = await User.find();
+
   res.status(200).render('dashboard', {
     page: 'dashboard',
     user,
     categories,
     courses,
+    users,
   });
+};
+
+exports.deleteUser = async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    await Course.deleteMany({user: req.params.id})
+    req.flash('success', 'User successfully deleted.')
+    res.status(200).redirect('/users/dashboard');
+  } catch (error) {
+    req.flash('error', 'Failed to delete the user.');
+    res.status(400).redirect('/users/dashboard');
+  }
 };
