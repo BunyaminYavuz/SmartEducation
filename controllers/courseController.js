@@ -116,13 +116,25 @@ exports.deleteCourse = async (req, res) => {
   try {
     const course = await Course.findByIdAndDelete(req.params.id);
 
-    req.flash(
-      'success',
-      `'${course.name}' has been removed successfully.`
-    );
+    req.flash('success', `'${course.name}' has been removed successfully.`);
     res.status(200).redirect('/users/dashboard');
   } catch (error) {
     req.flash('error', 'Failed to delete the course. Please try again later.');
+    res.status(400).redirect('/users/dashboard');
+  }
+};
+
+exports.updateCourse = async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.id);
+
+    course.name = req.body.name;
+    course.description = req.body.description;
+    course.category = req.body.category;
+
+    await course.save();
+    res.status(200).redirect(`/courses/${course.slug}`);
+  } catch (error) {
     res.status(400).redirect('/users/dashboard');
   }
 };
