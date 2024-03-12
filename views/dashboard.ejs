@@ -71,8 +71,21 @@
 			<div class="container">
 				<div class="row"> 
 
+					<div class="offset-3 col-md-6 col-12 text-center">
+						<% if (flashMessages) { %>
+							<% if (flashMessages.success) { %>
+							<div class="alert alert-success">
+							<%= flashMessages.success %>
+							</div>
+						<% } else if (flashMessages.error) { %>
+						<div class="alert alert-danger">
+							<%= flashMessages.error %>
+							</div>
+							<% } %>
+						<% } %>
+					</div>
 						<!--  Modal Button -->
-						<div class=" offset-5 col-log-12 text-center  " >
+						<div class="offset-5 col-log-12 text-center  " >
 							<button class="btn btn-lg btn-warning rounded-0 text-white" href="#" data-toggle="modal" data-target="#addCourse"><span>Create New Course</span></button>
 						</div>
 
@@ -165,8 +178,15 @@
 										<h2><a href="/courses/<%= course.slug %>" title=""><%= course.name %></a></h2>
 									</div>
 									<div class="course-desc">
-										<p><%=  course.description %></p>
+										<p><%=  course.description.substring(0, 100) + '...' %></p>
 									</div>
+
+									<div class="clearfix" style="list-style-type: none;">
+										<li style="float: left;"><a class="btn btn-warning text-white rounded-0" href=""><span>UPDATE</span></a></li>
+										<li style="float: right;"><a class="btn btn-danger text-white rounded-0" href="/courses/<%= course._id %>?_method=DELETE"
+										onclick="return confirm(`Are you sure you want to delete '<%= course.name %>'?`)"><span>DELETE</span></a></li>
+									</div>
+
 								</div>
 							</div>
 						</div><!-- end col -->

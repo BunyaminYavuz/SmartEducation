@@ -13,7 +13,7 @@ exports.createCourse = async (req, res) => {
 
     req.flash(
       'success',
-      `The course <${course.name}> has been created successfully.`
+      `The course '${course.name}' has been created successfully.`
     );
     res.status(201).redirect('/courses');
   } catch {
@@ -109,5 +109,20 @@ exports.releaseCourse = async (req, res) => {
     res.status(400).json({
       error,
     });
+  }
+};
+
+exports.deleteCourse = async (req, res) => {
+  try {
+    const course = await Course.findByIdAndDelete(req.params.id);
+
+    req.flash(
+      'success',
+      `'${course.name}' has been removed successfully.`
+    );
+    res.status(200).redirect('/users/dashboard');
+  } catch (error) {
+    req.flash('error', 'Failed to delete the course. Please try again later.');
+    res.status(400).redirect('/users/dashboard');
   }
 };

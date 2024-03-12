@@ -29,7 +29,7 @@ exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
 
-    if(user){
+    if (user) {
       const same = await bcrypt.compare(password, user.password);
       if (same) {
         // User SESSION
@@ -41,12 +41,15 @@ exports.loginUser = async (req, res) => {
       }
     }
     if (!user) {
-      req.flash('error', 'No user found with this email. Please check your email or register.');
+      req.flash(
+        'error',
+        'No user found with this email. Please check your email or register.'
+      );
       res.status(400).redirect('/login');
     }
   } catch (error) {
-    req.flash('error', 'Something went wrong!')
-    res.status(400).redirect('/login')
+    req.flash('error', 'Something went wrong!');
+    res.status(400).redirect('/login');
   }
 };
 
@@ -60,9 +63,9 @@ exports.getDashboardPage = async (req, res) => {
   const user = await User.findById(req.session.userID).populate('courses');
   const categories = await Category.find();
 
-  const courses = await Course.find({ user: req.session.userID }).populate(
-    'user'
-  );
+  const courses = await Course.find({ user: req.session.userID })
+    .populate('user')
+    .sort('-createdDate');
 
   res.status(200).render('dashboard', {
     page: 'dashboard',
