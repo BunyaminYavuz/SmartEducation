@@ -1,10 +1,19 @@
 // Use at least Nodemailer v4.1.0
 const nodemailer = require('nodemailer');
+const Course = require('../models/Course');
+const User = require('../models/User');
 
-exports.getIndexPage = (req, res) => {
-  console.log(req.session.userID);
+exports.getIndexPage = async (req, res) => {
+  const courses = await Course.find().sort('-createdDate').limit(2);
+  const totalStudents = await User.find({ role: 'student' }).countDocuments();
+  const totalTeachers = await User.find({ role: 'teacher' }).countDocuments();
+  const totalCourses = await Course.find().countDocuments();
   res.status(200).render('index', {
     page: 'index',
+    courses,
+    totalStudents,
+    totalTeachers,
+    totalCourses,
   });
 };
 

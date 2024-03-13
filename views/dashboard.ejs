@@ -292,7 +292,7 @@
 					<div class="col-lg-12 blog-post-single">					
 						<div class="blog-author">
 							<div class="author-bio">
-								<h3 class="author_name"><a href="#">Courses Enrolled By ~ <em><%= user.name %></em> ~</a></h3>
+								<h3 class="author_name"><a href="#">Managed By ~ <em><%= user.name %></em> ~</a></h3>
 								<!-- <h5>CEO at <a href="#">SmartEDU</a></h5> -->
 								<!-- <p class="author_det">
 									Lorem ipsum dolor sit amet, consectetur adip, sed do eiusmod tempor incididunt  ut aut reiciendise voluptat maiores alias consequaturs aut perferendis doloribus omnis saperet docendi nec, eos ea alii molestiae aliquand.
@@ -307,14 +307,15 @@
 				</div><!-- end row -->
 				<div class="row mt-5"> 
 
-					<table class="table text-warning bg-dark">
+					<table class="table text-warning bg-dark mb-5">
+						<h2 class="text-center font-italic">User List</h2>
+						
 						<thead>
 							<tr>
 								<th scope="col">ID</th>
 								<th scope="col">Name</th>
 								<th scope="col">Email</th>
 								<th scope="col">Role</th>
-								<th scope="col">Courses</th>
 								<th scope="col">Operation</th>
 							</tr>
 						</thead>
@@ -325,8 +326,45 @@
 							<td><%= user.name %></td>
 							<td><%= user.email %></td>
 							<td><%= user.role %></td>
-							<td><%= user.courses %></td>
-							<td><a href="/users/<%= user._id %>?_method=DELETE" class="btn btn-danger text-white rounded-0" onclick="return confirm(`Are you sure to delete '<%= user.name %>'`)">DELETE</a></td>
+							<td><a href="/users/<%= user._id %>?_method=DELETE" class="btn btn-danger text-white rounded-0" onclick="return confirm(`Are you sure to delete '<%= user.name %>' ?`)">DELETE</a></td>
+						  </tr>
+						  
+						  <% }) %>
+						</tbody>
+					  </table>
+
+					  
+
+					  <table class="table text-warning bg-dark mb-5">
+						<div class="row">
+							<div class="col">
+								<h2 class="text-center font-italic">Category List</h2>
+							</div>
+							<div class="col text-right">
+								<button class="btn btn-success text-white rounded-0" href="#" data-toggle="modal" data-target="#addCategory">
+									<span>ADD CATEGORY</span>
+								</button>
+							</div>
+						</div>
+						
+						
+						
+						
+						
+						<thead>
+							<tr>
+								<th scope="col">ID</th>
+								<th scope="col">Name</th>
+								<th scope="col">Operations</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% categories.forEach(category => { %>
+						  <tr>
+							<th scope="row"><%= category._id %></th>
+							<td><%= category.name %></td>
+							
+							<td><a href="/categories/<%= category._id %>?_method=DELETE" class="btn btn-danger text-white rounded-0" onclick="return confirm(`Are you sure to delete '<%= category.name %>' ?`)">DELETE</a></td>
 						  </tr>
 						  
 						  <% }) %>
@@ -337,6 +375,39 @@
 				</div><!-- end row -->
 			</div><!-- end container -->
 		</div><!-- end section -->
+
+		<div class="modal fade" id="addCategory" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+			<div class="modal-content">
+			<div class="modal-body customer-box">
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div class="tab-pane active" id="Login">
+						<form method="POST" action="/categories" class="form-horizontal">
+							<div class="form-group">
+								<div class="col-sm-12">
+									<input type="text" name="name" class="form-control"  placeholder="Category Name">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-10">
+									<button type="submit" class="btn btn-light btn-radius btn-brd grd1">
+										Submit
+									</button>
+									<button type="submit" class="btn btn-light btn-radius btn-brd grd1"
+										data-dismiss="modal" aria-hidden="true">
+										Cancel
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			</div>
+			</div>
+			</div>
+		
 	<% } %>
     
 <% } %>
