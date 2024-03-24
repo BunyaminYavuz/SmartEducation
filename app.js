@@ -42,7 +42,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     store: MongoStore.create({
-      mongoUrl: 'mongodb://localhost/smart-education-db',
+      mongoUrl: process.env.DB_URL,
     }),
   })
 );
