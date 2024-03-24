@@ -1,5 +1,6 @@
 const express = require('express');
 const ejs = require('ejs');
+const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
@@ -12,9 +13,12 @@ const authRoute = require('./routes/authRoute');
 
 const app = express();
 
+// .env file
+dotenv.config();
+
 // Db Connection
 mongoose
-  .connect('mongodb://localhost/smart-education-db')
+  .connect(process.env.DB_URL)
   .then(() => {
     console.log('Db connected :)');
   })
